@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -50,11 +51,15 @@ public class ClubActivityDao implements IClubActivityDao {
 	@Override
 	public List<ClubActivity> getActivities() {
 		Session session = HibernateSessionUtil.getSession();
+//		String hql = "select id, name from clubActivity";
+//		Transaction tx = session.beginTransaction();
+//		Query query = session.createQuery(hql);
 		Criteria c = session.createCriteria(entityClass);
-		c.add(Restrictions.eq("deleted", "N"));
-		c.add(Restrictions.eq("published", "Y"));
-		c.addOrder(Order.desc("activity_start_time"));
-	    session.close();
+//		c.add(Restrictions.eq("deleted", "N"));
+//		c.add(Restrictions.eq("published", "Y"));
+//		c.addOrder(Order.desc("activity_start_time"));
+//		tx.commit();
+	    
 
 		return c.list();
 	}

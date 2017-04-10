@@ -54,10 +54,13 @@ public class ClubActivityService implements IClubActivityService {
 		try{
 			IClubActivityDao activityDao = new ClubActivityDao();
 			List<ClubActivity> activities = activityDao.getActivities();
-			ResponseObject responseObj = ResponseObjectFactory.getSuccessObject();
-			responseObj.setData(activities);
-			return responseObj.toJson();
+			
+			return JSON.toJSONString(activities, SerializerFeature.DisableCircularReferenceDetect);
+//			ResponseObject responseObj = ResponseObjectFactory.getSuccessObject();
+//			responseObj.setData(activities);
+//			return responseObj.toJson();
 		}catch(Exception e){
+			e.printStackTrace();
 			ResponseObject responseObj = ResponseObjectFactory.getFailedObject();
 			responseObj.setErrorMessage("operation failed");
 			return responseObj.toJson();

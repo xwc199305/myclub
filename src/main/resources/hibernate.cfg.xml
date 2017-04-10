@@ -12,5 +12,8 @@
   <property name="hibernate.format_sql">true</property>
 <!--   <property name="hibernate.hbm2ddl.auto">create</property> -->
   <mapping class="com.hackathon.jersey.backend.entity.ClubActivity"/>
+  <mapping class="com.hackathon.jersey.backend.entity.ClubBlacklist"/>
+  <mapping class="com.hackathon.jersey.backend.entity.ClubMember"/>
+  <mapping class="com.hackathon.jersey.backend.entity.ClubParticipants"/>
  </session-factory>
 </hibernate-configuration>
