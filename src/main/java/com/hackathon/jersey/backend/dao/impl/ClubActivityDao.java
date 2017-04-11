@@ -9,11 +9,10 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
 import com.hackathon.jersey.backend.dao.IClubActivityDao;
 import com.hackathon.jersey.backend.entity.ClubActivity;
+import com.hackathon.jersey.backend.utils.DateUtils;
 import com.hackathon.jersey.backend.utils.HibernateSessionUtil;
 
 /**
@@ -37,7 +36,7 @@ public class ClubActivityDao implements IClubActivityDao {
 		if (activity == null) {
 			throw new Exception("resource not found");
 		}
-	    session.close();
+		session.close();
 
 		return activity;
 	}
@@ -51,15 +50,14 @@ public class ClubActivityDao implements IClubActivityDao {
 	@Override
 	public List<ClubActivity> getActivities() {
 		Session session = HibernateSessionUtil.getSession();
-//		String hql = "select id, name from clubActivity";
-//		Transaction tx = session.beginTransaction();
-//		Query query = session.createQuery(hql);
+		// String hql = "select id, name from clubActivity";
+		// Transaction tx = session.beginTransaction();
+		// Query query = session.createQuery(hql);
 		Criteria c = session.createCriteria(entityClass);
-//		c.add(Restrictions.eq("deleted", "N"));
-//		c.add(Restrictions.eq("published", "Y"));
-//		c.addOrder(Order.desc("activity_start_time"));
-//		tx.commit();
-	    
+		// c.add(Restrictions.eq("deleted", "N"));
+		// c.add(Restrictions.eq("published", "Y"));
+		// c.addOrder(Order.desc("activity_start_time"));
+		// tx.commit();
 
 		return c.list();
 	}
@@ -72,7 +70,7 @@ public class ClubActivityDao implements IClubActivityDao {
 			Transaction tran = session.beginTransaction();
 			session.save(activity);
 			tran.commit();
-		    session.close();
+			session.close();
 
 			return activity;
 		} catch (Exception e) {
@@ -85,14 +83,14 @@ public class ClubActivityDao implements IClubActivityDao {
 	@Override
 	public ClubActivity updateActivity(ClubActivity activity) {
 		// TODO Auto-generated method stub
-		try{
+		try {
 			Session session = HibernateSessionUtil.getSession();
 			Transaction tran = session.beginTransaction();
 			session.update(activity);
 			tran.commit();
 			session.close();
 			return activity;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 
@@ -104,20 +102,33 @@ public class ClubActivityDao implements IClubActivityDao {
 		// TODO Auto-generated method stub
 		Session session = HibernateSessionUtil.getSession();
 		Transaction tran = session.beginTransaction();
-		ClubActivity activity = getActivityById(id);	
-		if(activity==null){
+		ClubActivity activity = getActivityById(id);
+		if (activity == null) {
 			return "resource not found";
 		}
-	    session.delete(activity);
-	    tran.commit();	
-	    session.close();
-	    
-	    return "success";
-		 
-			
-		
-		
-		
+		session.delete(activity);
+		tran.commit();
+		session.close();
+
+		return "success";
+
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ClubActivity> getActivityByName(String name) {
+		try {
+			Session session = HibernateSessionUtil.getSession();
+			Transaction tran = session.beginTransaction();
+			String hql = "select ca from clubActivity ca where ca.name like ?";
+			List<ClubActivity> activities = (List<ClubActivity>) session.createQuery(hql).setParameter(0,
+					name).list();
+			tran.commit();
+			session.close();
+			return activities;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

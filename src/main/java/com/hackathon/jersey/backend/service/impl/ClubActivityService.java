@@ -66,7 +66,7 @@ public class ClubActivityService implements IClubActivityService {
 			return responseObj.toJson();
 		}
 	}
-	
+		
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -97,9 +97,25 @@ public class ClubActivityService implements IClubActivityService {
 		}		
 	}
 	
+	@POST
+	@Path("/publish")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ClubActivity publishActivity(ClubActivity activity) {
+		IClubActivityDao activityDao = new ClubActivityDao();
+		ClubActivity result = null;
+		if (activity.getPublished().equals("Y")) {
+			result = activityDao.updateActivity(activity);
+		}
+		if (result != null) {
+			return result;
+		} else {
+			return null;
+		}		
+	}
+	
 	@DELETE
 	@Path("/delete/{id}")
-	
     public String deleteActivity(@PathParam("id") long id){
 		IClubActivityDao activityDao = new ClubActivityDao();
 		String result;
@@ -111,7 +127,22 @@ public class ClubActivityService implements IClubActivityService {
 			e.printStackTrace();
 		}
 		return null;
-		
+	}
+	
+	@GET
+	@Path("/search/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getActivityByName(@PathParam("name") String name) {
+		try {
+			IClubActivityDao activityDao = new ClubActivityDao();
+			List<ClubActivity> activities = activityDao.getActivityByName(name);
 			
+			return JSON.toJSONString(activities, SerializerFeature.DisableCircularReferenceDetect);
+		} catch (Exception e) {
+			ResponseObject responseObj = ResponseObjectFactory.getFailedObject();
+			responseObj.setErrorMessage(e.getMessage());
+			return responseObj.toJson();
+		}
+
 	}
 }

@@ -37,7 +37,7 @@ public class ClubParticipants {
 	private String create_by;
 
 	@Column(name = "UPDATE_AT")
-	private Timestamp updata_at;
+	private Timestamp update_at;
 
 	@Column(name = "UPDATE_BY", length = 64)
 	private String update_by;
@@ -90,12 +90,12 @@ public class ClubParticipants {
 		this.create_by = create_by;
 	}
 
-	public java.sql.Timestamp getUpdata_at() {
-		return updata_at;
+	public Timestamp getUpdate_at() {
+		return update_at;
 	}
 
-	public void setUpdata_at(java.sql.Timestamp updata_at) {
-		this.updata_at = updata_at;
+	public void setUpdate_at(Timestamp update_at) {
+		this.update_at = update_at;
 	}
 
 	public String getUpdate_by() {

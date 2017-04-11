@@ -23,6 +23,8 @@ public interface IClubActivityDao {
 	public ClubActivity updateActivity(ClubActivity activity);
 
 	public String deleteActivityById(long id) throws Exception;
+
+	public List<ClubActivity> getActivityByName(String name);
 	
 	
 }
