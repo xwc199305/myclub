@@ -59,12 +59,12 @@ public class ClubParticipantsDao implements IClubParticipantsDao{
 			int deleteNum = 0;
 			Session session = HibernateSessionUtil.getSession();
 			Transaction transaction = session.beginTransaction();
-			String hqlSelect = "select cp from clubParticipants cp where cp.activity_info_id = :activityId and cp.member_info_id = :memberId";
+// 			String hqlSelect = "select cp from clubParticipants cp where cp.activity_info_id = :activityId and cp.member_info_id = :memberId";
 			String hqlDelete = "delete from clubParticipants cp where cp.activity_info_id = :activityId and cp.member_info_id = :memberId";
-			ClubParticipants participants = (ClubParticipants) session.createQuery(hqlSelect).setParameter("activityId", activityId).setParameter("memberId", memberId).uniqueResult();
-			if(participants != null){
-				deleteNum = session.createQuery(hqlDelete).setParameter("activityId", activityId).setParameter("memberId", memberId).executeUpdate();
-			}		
+// 			ClubParticipants participants = (ClubParticipants) session.createQuery(hqlSelect).setParameter("activityId", activityId).setParameter("memberId", memberId).uniqueResult();
+// 			if(participants != null){
+			deleteNum = session.createQuery(hqlDelete).setParameter("activityId", activityId).setParameter("memberId", memberId).executeUpdate();
+// 			}		
 			transaction.commit();
 			session.close();
 			return deleteNum;
